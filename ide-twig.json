@@ -1,0 +1,8 @@
+{
+  "namespaces": [
+    {
+      "namespace": "Contao_ContaoSimpleColumnWizard",
+      "path": "contao/templates/twig"
+    }
+  ]
+}

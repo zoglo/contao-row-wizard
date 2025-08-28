@@ -1,0 +1,12 @@
+{
+  "entrypoints": {
+    "simple-column-wizard": {
+      "css": [
+        "/bundles/contaosimplecolumnwizard/simple-column-wizard.b8071b0c.css"
+      ],
+      "js": [
+        "/bundles/contaosimplecolumnwizard/simple-column-wizard.31d6cfe0.js"
+      ]
+    }
+  }
+}

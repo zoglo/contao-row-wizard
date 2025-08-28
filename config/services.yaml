@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autoconfigure: true
+
+    contao_simple_column_wizard.listener.add_assets:
+        class: Zoglo\ContaoSimpleColumnWizard\EventListener\AddAssetsListener
+        arguments:
+            - '@contao.routing.scope_matcher'
+            - '@assets.packages'
