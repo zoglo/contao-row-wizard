@@ -17,7 +17,7 @@ class SimpleColumnWizard extends Widget
 
     protected array $arrColumnFields = [];
 
-    private bool $hasStimulus;
+    private bool $reverseSorting;
 
     public function __construct($arrAttributes = null)
     {
@@ -25,7 +25,7 @@ class SimpleColumnWizard extends Widget
 
         $this->preserveTags = true;
         $this->decodeEntities = true;
-        $this->hasStimulus = \in_array(version_compare(ContaoCoreBundle::getVersion(), '5.3.999', '<'), [0, false, null], true);
+        $this->reverseSorting = \in_array(version_compare(ContaoCoreBundle::getVersion(), '5.3.999', '<'), [0, false, null], true);
 
         foreach ($this->arrOptions as $arrOption) {
             $this->arrColumnFields[] = $arrOption['value'];
@@ -140,7 +140,7 @@ class SimpleColumnWizard extends Widget
             'id' => $this->strId,
             'labels' => $labels,
             'rows' => $rows,
-            'stimulus' => $this->hasStimulus,
+            'reverseSorting' => $this->reverseSorting,
         ]);
     }
 
@@ -157,8 +157,10 @@ class SimpleColumnWizard extends Widget
 
         $data['name'] = $this->strId . '[' . $increment . '][' . $data['name'] . ']';
 
-        if (!$this->hasStimulus) {
+        if (\in_array($data['type'] ?? null, ['checkbox', 'label'])) {
             $data['id'] = $data['name'];
+        } else {
+            $data['id'] .= '_' . $increment;
         }
 
         if (isset($this->varValue[$increment][$type])) {
