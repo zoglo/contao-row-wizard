@@ -6,7 +6,7 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 
 Encore
     .setOutputPath('./public/')
-    .setPublicPath(Encore.isDevServer() ? '/public/' : '/bundles/contaosimplecolumnwizard/')
+    .setPublicPath(Encore.isDevServer() ? '/public/' : '/bundles/zoglosimplecolumnwizard/')
     .setManifestKeyPrefix('')
 
     .cleanupOutputBeforeBuild()
