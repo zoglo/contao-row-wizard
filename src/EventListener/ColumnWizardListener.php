@@ -8,23 +8,25 @@ use Contao\StringUtil;
 
 class ColumnWizardListener
 {
-    public static function clearEmptyRowWithEmptyFirstValue($varValue)
+    public static function clearEmptyRowWithEmptyFirstValue($var): string
     {
-        if ($varValue === '')
-        {
-            return $varValue;
+        if ($var === '') {
+            return $var;
         }
 
-        if (\count($arrValue = StringUtil::deserialize($varValue, true)) === 0)
-        {
+        if (\count($values = StringUtil::deserialize($var, true)) === 0) {
             return '';
         }
 
-        if (($arrValue[0][array_key_first($arrValue[0])] ?? '') === '')
-        {
+        // Do not reset if there is more than one row
+        if (\count($values) !== 1) {
+            return $var;
+        }
+
+        if (($values[0][array_key_first($values[0])] ?? '') === '') {
             return '';
         }
 
-        return $varValue;
+        return $var;
     }
 }
