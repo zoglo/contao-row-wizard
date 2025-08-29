@@ -22,7 +22,7 @@ class AddAssetsListener
     {
         if ($this->scopeMatcher->isBackendMainRequest($event))
         {
-            //$GLOBALS['TL_JAVASCRIPT'][] = $this->package->getUrl('simple-column-wizard.js', 'zoglo_simple_column_wizard');
+            $GLOBALS['TL_JAVASCRIPT'][] = $this->package->getUrl('simple-column-wizard.js', 'zoglo_simple_column_wizard');
             $GLOBALS['TL_CSS'][] = $this->package->getUrl('simple-column-wizard.css', 'zoglo_simple_column_wizard');
         }
     }

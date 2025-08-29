@@ -11,7 +11,7 @@ Encore
 
     .cleanupOutputBeforeBuild()
     .disableSingleRuntimeChunk()
-    .enableBuildNotifications()
+    .enableBuildNotifications(Encore.isProduction())
 
     .addEntry('simple-column-wizard', './assets/column-wizard.js')
 
