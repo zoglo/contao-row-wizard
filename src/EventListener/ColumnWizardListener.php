@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zoglo\ContaoSimpleColumnWizard\EventListener;
+namespace Zoglo\SimpleColumnWizardBundle\EventListener;
 
 use Contao\StringUtil;
 

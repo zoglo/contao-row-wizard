@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zoglo\ContaoSimpleColumnWizard\Widget;
+namespace Zoglo\SimpleColumnWizardBundle\Widget;
 
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\StringUtil;
@@ -27,8 +27,7 @@ class SimpleColumnWizard extends Widget
         $this->decodeEntities = true;
         $this->hasStimulus = \in_array(version_compare(ContaoCoreBundle::getVersion(), '5.3.999', '<'), [0, false, null], true);
 
-        foreach ($this->arrOptions as $arrOption)
-        {
+        foreach ($this->arrOptions as $arrOption) {
             $this->arrColumnFields[] = $arrOption['value'];
         }
     }
@@ -115,21 +114,29 @@ class SimpleColumnWizard extends Widget
         for ($i = 0, $c = \count($this->varValue); $i < $c; ++$i)
         {
             $columns = [];
+            $labels = [];
 
             foreach ($this->arrColumnFields as $key => $options)
             {
-                $labels[] = $options['label'] ?? '';
+                $widget = $this->prepareWidget($key, $options, $i);
 
-                // Unset all the row labels
-                unset($this->arrColumnFields[$key]['label'], $options['label']);
+                if (null !== $widget) {
+                    if ('be_widget' === $widget->template) {
+                        $labels[] = $widget->label ?? '';
+                        $widget->label = null;
+                        $widget->template = $this->strTemplate;
+                    } else {
+                        $labels[] = '';
+                    }
 
-                $columns[] = $this->parseWidget($key, $options, $i);
+                    $columns[] = $widget->parse();
+                }
             }
 
             $rows[$i] = $columns;
         }
 
-        return System::getContainer()->get('twig')->render('@Contao_ContaoSimpleColumnWizard/widget/simple_column_wizard.html.twig', [
+        return System::getContainer()->get('twig')->render('@Contao/widget/simple_column_wizard.html.twig', [
             'id' => $this->strId,
             'labels' => $labels,
             'rows' => $rows,
@@ -137,27 +144,24 @@ class SimpleColumnWizard extends Widget
         ]);
     }
 
-    private function parseWidget(string $type, array $options, int $increment): string
+    private function prepareWidget(string $type, array $options, int $increment): Widget|null
     {
         if (
             !isset($options['inputType'])
             || !class_exists($widgetClass = $GLOBALS['BE_FFL'][$options['inputType']])
         ) {
-            return '';
+            return null;
         }
 
-        $data = $this->getAttributesFromDca($options, $type);
+        $data = $widgetClass::getAttributesFromDca($options, $type);
 
         $data['name'] = $this->strId . '[' . $increment . '][' . $data['name'] . ']';
-        $data['template'] = $this->strTemplate;
 
-        if (!$this->hasStimulus)
-        {
+        if (!$this->hasStimulus) {
             $data['id'] = $data['name'];
         }
 
-        if (isset($this->varValue[$increment][$type]))
-        {
+        if (isset($this->varValue[$increment][$type])) {
             $data['value'] = $this->varValue[$increment][$type];
         }
 
@@ -177,6 +181,6 @@ class SimpleColumnWizard extends Widget
             $blnFileTree ? $strFilePicker : $objWidget->parse(),
         ]);*/
 
-        return $widget->parse();
+        return $widget;
     }
 }
