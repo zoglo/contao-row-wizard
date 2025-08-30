@@ -17,7 +17,9 @@ class SimpleColumnWizard extends Widget
 
     protected array $arrColumnFields = [];
 
-    private bool $reverseSorting;
+    private bool $sortable = true;
+
+    private bool $reverseSortable;
 
     public function __construct($arrAttributes = null)
     {
@@ -25,7 +27,7 @@ class SimpleColumnWizard extends Widget
 
         $this->preserveTags = true;
         $this->decodeEntities = true;
-        $this->reverseSorting = \in_array(version_compare(ContaoCoreBundle::getVersion(), '5.3.999', '<'), [0, false, null], true);
+        $this->reverseSortable = \in_array(version_compare(ContaoCoreBundle::getVersion(), '5.3.999', '<'), [0, false, null], true);
 
         foreach ($this->arrOptions as $arrOption) {
             $this->arrColumnFields[] = $arrOption['value'];
@@ -78,6 +80,10 @@ class SimpleColumnWizard extends Widget
                 {
                     $this->arrAttributes['maxlength'] = $varValue;
                 }
+                break;
+
+            case 'sortable':
+                $this->sortable = $varValue ?? false;
                 break;
 
             default:
@@ -140,7 +146,8 @@ class SimpleColumnWizard extends Widget
             'id' => $this->strId,
             'labels' => $labels,
             'rows' => $rows,
-            'reverseSorting' => $this->reverseSorting,
+            'sortable' => $this->sortable,
+            'reverseSortable' => $this->reverseSortable,
         ]);
     }
 

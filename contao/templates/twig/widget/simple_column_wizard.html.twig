@@ -10,7 +10,7 @@
 <table{{ table_attributes }}>
     <thead>
     <tr>
-        {% if reverseSorting %}
+        {% if sortable and reverseSortable %}
             <th></th>
         {% endif %}
         {% for label in labels %}
@@ -20,17 +20,17 @@
     </tr>
     </thead>
     {% set table_body_attributes = attrs()
-        .addClass('sortable')
-        .set('data-controller', controller_prefix ~ 'sortable')
-        .set('data-' ~ controller_prefix ~ 'sortable-handle-value', '.drag-handle')
-        .set('data-action', controller_prefix ~ 'sortable:update->' ~ controller_prefix ~ 'row-wizard#updateSorting')
+        .addClass('sortable', sortable)
+        .set('data-controller', controller_prefix ~ 'sortable', sortable)
+        .set('data-' ~ controller_prefix ~ 'sortable-handle-value', '.drag-handle', sortable)
+        .set('data-action', controller_prefix ~ 'sortable:update->' ~ controller_prefix ~ 'row-wizard#updateSorting', sortable)
         .set('data-' ~ controller_prefix ~ 'row-wizard-target', 'body')
     %}
 
     <tbody{{ table_body_attributes }}>
         {% for row in rows %}
             <tr data-{{ controller_prefix}}row-wizard-target="row">
-                {% if reverseSorting %}
+                {% if sortable and reverseSortable %}
                     <td>
                         {% set drag_handle_attributes = attrs()
                             .set('type', 'button')
@@ -68,7 +68,7 @@
                     %}
                     <button{{ delete_button_attributes }}>{{ backend_icon('delete.svg', 'MSC.mw_delete'|trans) }}</button>
 
-                    {% if not reverseSorting %}
+                    {% if sortable and not reverseSortable %}
                         {% set drag_handle_attributes = attrs()
                             .set('type', 'button')
                             .set('data-action', 'keydown->' ~ controller_prefix ~ 'sortable#move')
