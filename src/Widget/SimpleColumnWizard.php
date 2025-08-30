@@ -87,10 +87,12 @@ class SimpleColumnWizard extends Widget
                 break;
 
             case 'min':
+                // ToDo: Should we validate the row amount serverside?
                 $this->min = $varValue ?? null;
                 break;
 
             case 'max':
+                // ToDo: Should we validate the row amount serverside?
                 $this->max = $varValue ?? null;
                 break;
 
