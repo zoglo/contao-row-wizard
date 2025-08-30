@@ -31,7 +31,7 @@
 
     <tbody{{ table_body_attributes }}>
         {% for row in rows %}
-            <tr data-{{ controller_prefix}}row-wizard-target="row">
+            <tr data-{{ controller_prefix }}row-wizard-target="row">
                 {% if sortable and reverseSortable %}
                     <td>
                         {% set drag_handle_attributes = attrs()
@@ -43,7 +43,7 @@
                     </td>
                 {% endif %}
 
-                {% for widget in row %}
+                {% for widget in row.columns %}
                     <td>{{ widget|raw }}</td>
                 {% endfor %}
 
@@ -69,6 +69,27 @@
                         .set('data-action', controller_prefix ~ 'row-wizard#delete contao--scroll-offset#store')
                     %}
                     <button{{ delete_button_attributes }}>{{ backend_icon('delete.svg', 'MSC.mw_delete'|trans) }}</button>
+
+                    {# Enable checkbox #}
+                    {% set enable_input_attributes = attrs()
+                        .set('id', "#{id}_#{loop.index0}_enable")
+                        .set('name', "#{id}[#{loop.index0}][enable]")
+                        .set('type', 'checkbox')
+                        .set('checked', condition: row.controls.enable)
+                        .set('value', '1')
+                        .set('data-action', 'focus->contao--scroll-offset#store')
+                        .addClass('tl_checkbox mw_enable')
+                    %}
+                    <input{{ enable_input_attributes }}>
+
+                    {% set enable_label_attributes = attrs()
+                        .set('for', "#{id}_#{loop.index0}_enable")
+                        .set('title', 'MSC.mw_enable'|trans)
+                        .set('data-contao--tooltips-target', 'tooltip')
+                        .set('data-action', 'click->contao--scroll-offset#store')
+                        .addClass('mw_enable')
+                    %}
+                    <label{{ enable_label_attributes }}>{{ 'MSC.mw_enable'|trans }}</label>
 
                     {% if sortable and not reverseSortable %}
                         {% set drag_handle_attributes = attrs()

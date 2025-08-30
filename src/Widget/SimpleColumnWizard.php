@@ -153,7 +153,13 @@ class SimpleColumnWizard extends Widget
                 }
             }
 
-            $rows[$i] = $columns;
+            $rows[$i] = [
+                'columns' => $columns,
+                'controls' => [
+                    'enable' => $this->varValue[$i]['enable'] ?? false,
+                    'edit'   => ($this->varValue[$i]['id'] ?? 0) > 0,
+                ],
+            ];
         }
 
         return System::getContainer()->get('twig')->render('@Contao/widget/simple_column_wizard.html.twig', [
