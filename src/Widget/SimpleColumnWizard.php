@@ -17,6 +17,10 @@ class SimpleColumnWizard extends Widget
 
     protected array $arrColumnFields = [];
 
+    private int|null $min = null;
+
+    private int|null $max = null;
+
     private bool $sortable = true;
 
     private bool $reverseSortable;
@@ -80,6 +84,14 @@ class SimpleColumnWizard extends Widget
                 {
                     $this->arrAttributes['maxlength'] = $varValue;
                 }
+                break;
+
+            case 'min':
+                $this->min = $varValue ?? null;
+                break;
+
+            case 'max':
+                $this->max = $varValue ?? null;
                 break;
 
             case 'sortable':
@@ -146,6 +158,8 @@ class SimpleColumnWizard extends Widget
             'id' => $this->strId,
             'labels' => $labels,
             'rows' => $rows,
+            'rows_min' => $this->min,
+            'rows_max' => $this->max,
             'sortable' => $this->sortable,
             'reverseSortable' => $this->reverseSortable,
         ]);

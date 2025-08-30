@@ -2,6 +2,10 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
     static targets = ['body', 'row'];
+    static values = {
+        min: Number,
+        max: Number
+    };
 
     rowTargetConnected() {
         this.updateSorting();
@@ -12,6 +16,10 @@ export default class extends Controller {
     }
 
     copy(event) {
+        if (this.hasMaxValue && this.bodyTarget.children.length >= this.maxValue) {
+            return;
+        }
+
         const row = this._getRow(event);
         const previous = row.previousElementSibling;
 
@@ -36,10 +44,14 @@ export default class extends Controller {
     delete(event) {
         const row = this._getRow(event);
 
+        if (this.hasMinValue && this.bodyTarget.children.length <= this.minValue) {
+            return;
+        }
+
         if (this.bodyTarget.children.length > 1) {
             this._focus(row.nextElementSibling) ||
-                this._focus(row.previousElementSibling) ||
-                this._focus(this.bodyTarget);
+            this._focus(row.previousElementSibling) ||
+            this._focus(this.bodyTarget);
 
             row.remove();
         } else {
