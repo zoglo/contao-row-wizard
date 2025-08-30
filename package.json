@@ -8,8 +8,6 @@
         "postcss": "^8.5",
         "postcss-loader": "^8.1",
         "postcss-preset-env": "^10.3",
-        "sass": "^1.91",
-        "sass-loader": "^16.0",
         "sortablejs": "^1.15",
         "stylelint": "^16.23",
         "stylelint-config-standard": "^39.0",
