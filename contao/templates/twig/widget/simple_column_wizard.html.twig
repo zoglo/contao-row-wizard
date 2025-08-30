@@ -5,8 +5,8 @@
     .set('id', 'ctrl_' ~ id)
     .addClass(['simple_column_wizard'])
     .set('data-controller', controller_prefix ~ 'row-wizard')
-    .setIfExists('data-'~ controller_prefix ~ 'row-wizard-min-value', rows_min|default)
-    .setIfExists('data-'~ controller_prefix ~ 'row-wizard-max-value', rows_max|default)
+    .setIfExists('data-'~ controller_prefix ~ 'row-wizard-min-value', min_rows|default)
+    .setIfExists('data-'~ controller_prefix ~ 'row-wizard-max-value', max_rows|default)
 %}
 
 <table{{ table_attributes }}>

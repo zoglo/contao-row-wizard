@@ -160,8 +160,8 @@ class SimpleColumnWizard extends Widget
             'id' => $this->strId,
             'labels' => $labels,
             'rows' => $rows,
-            'rows_min' => $this->min,
-            'rows_max' => $this->max,
+            'min_rows' => $this->min,
+            'max_rows' => $this->max,
             'sortable' => $this->sortable,
             'reverseSortable' => $this->reverseSortable,
         ]);
