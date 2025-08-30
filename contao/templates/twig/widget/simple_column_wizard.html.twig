@@ -1,9 +1,10 @@
 {% trans_default_domain "contao_default" %}
+{% set controller_prefix = 'scw--' %}
 
 {% set table_attributes = attrs()
     .set('id', 'ctrl_' ~ id)
     .addClass(['simple_column_wizard'])
-    .set('data-controller', 'simple-column-wizard')
+    .set('data-controller', controller_prefix ~ 'row-wizard')
 %}
 
 <table{{ table_attributes }}>
@@ -20,20 +21,20 @@
     </thead>
     {% set table_body_attributes = attrs()
         .addClass('sortable')
-        .set('data-controller', 'sortable')
-        .set('data-sortable-handle-value', '.drag-handle')
-        .set('data-action', 'sortable:update->simple-column-wizard#updateSorting')
-        .set('data-simple-column-wizard-target', 'body')
+        .set('data-controller', controller_prefix ~ 'sortable')
+        .set('data-' ~ controller_prefix ~ 'sortable-handle-value', '.drag-handle')
+        .set('data-action', controller_prefix ~ 'sortable:update->' ~ controller_prefix ~ 'row-wizard#updateSorting')
+        .set('data-' ~ controller_prefix ~ 'row-wizard-target', 'body')
     %}
 
     <tbody{{ table_body_attributes }}>
         {% for row in rows %}
-            <tr data-simple-column-wizard-target="row">
+            <tr data-{{ controller_prefix}}row-wizard-target="row">
                 {% if reverseSorting %}
                     <td>
                         {% set drag_handle_attributes = attrs()
                             .set('type', 'button')
-                            .set('data-action', 'keydown->sortable#move')
+                            .set('data-action', 'keydown->' ~ controller_prefix ~ 'sortable#move')
                             .addClass(['drag-handle', 'scw-drag-handle'])
                         %}
                         <button{{ drag_handle_attributes}}>{{ backend_icon('drag.svg', 'MSC.move'|trans) }}</button>
@@ -56,21 +57,21 @@
                     {# Copy row #}
                     {% set copy_button_attributes = attrs()
                         .set('type', 'button')
-                        .set('data-action', 'simple-column-wizard#copy contao--scroll-offset#store')
+                        .set('data-action', controller_prefix ~ 'row-wizard#copy contao--scroll-offset#store')
                     %}
                     <button{{ copy_button_attributes }}>{{ backend_icon('copy.svg', 'MSC.mw_copy'|trans) }}</button>
 
                     {# Delete row #}
                     {% set delete_button_attributes = attrs()
                         .set('type', 'button')
-                        .set('data-action', 'simple-column-wizard#delete contao--scroll-offset#store')
+                        .set('data-action', controller_prefix ~ 'row-wizard#delete contao--scroll-offset#store')
                     %}
                     <button{{ delete_button_attributes }}>{{ backend_icon('delete.svg', 'MSC.mw_delete'|trans) }}</button>
 
                     {% if not reverseSorting %}
                         {% set drag_handle_attributes = attrs()
                             .set('type', 'button')
-                            .set('data-action', 'keydown->sortable#move')
+                            .set('data-action', 'keydown->' ~ controller_prefix ~ 'sortable#move')
                             .addClass(['drag-handle', 'scw-drag-handle'])
                         %}
                         <button{{ drag_handle_attributes}}>{{ backend_icon('drag.svg', 'MSC.move'|trans) }}</button>
