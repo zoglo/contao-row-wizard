@@ -88,3 +88,5 @@ The following fields do not work:
 - any eval `rte` (tinymce, ace)
 - color picker
 - filetree
+
+If you need those working or any other special features, consider using a more advanced wizard such as [contao-multicolumnwizard-bundle](https://github.com/menatwork/contao-multicolumnwizard-bundle) instead.
