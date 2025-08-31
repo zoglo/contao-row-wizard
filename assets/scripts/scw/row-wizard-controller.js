@@ -1,11 +1,15 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = ['body', 'row'];
+    static targets = ['body', 'row', 'copy', 'delete'];
     static values = {
         min: Number,
-        max: Number
+        max: Number,
     };
+
+    connect() {
+        this.#updatePermissions();
+    }
 
     rowTargetConnected() {
         this.updateSorting();
@@ -16,7 +20,7 @@ export default class extends Controller {
     }
 
     copy(event) {
-        if (this.hasMaxValue && this.bodyTarget.children.length >= this.maxValue) {
+        if (!this.#copyAllowed()) {
             return;
         }
 
@@ -38,58 +42,29 @@ export default class extends Controller {
             }
 
             this._focus(newRow);
+            this.#updatePermissions();
         });
     }
 
     delete(event) {
-        const row = this._getRow(event);
-
-        if (this.hasMinValue && this.bodyTarget.children.length <= this.minValue) {
+        if (!this.#deleteAllowed()) {
             return;
         }
 
+        const row = this._getRow(event);
+
         if (this.bodyTarget.children.length > 1) {
             this._focus(row.nextElementSibling) ||
-            this._focus(row.previousElementSibling) ||
-            this._focus(this.bodyTarget);
+                this._focus(row.previousElementSibling) ||
+                this._focus(this.bodyTarget);
 
             row.remove();
         } else {
             this._resetInputs(row);
             this._focus(row);
         }
-    }
 
-    /**
-     * This method is specific to the row wizard being a "module wizard".
-     */
-    updateModuleWizardLink(event) {
-        const row = this._getRow(event);
-        const link = row.querySelector('.module_link');
-        const images = row.querySelectorAll('img.module_image');
-        const select = event.target;
-
-        const isContentElement = select.value.startsWith('content-');
-        const id = isContentElement ? select.value.replace('content-', '') : select.value;
-
-        const href = new URL(link.href);
-        href.searchParams.set('table', isContentElement ? 'tl_content' : 'tl_module');
-        href.searchParams.set('id', id);
-        link.href = href.toString();
-
-        if (id > 0) {
-            link.classList.remove('hidden');
-
-            for (const image of images) {
-                image.classList.add('hidden');
-            }
-        } else {
-            link.classList.add('hidden');
-
-            for (const image of images) {
-                image.classList.remove('hidden');
-            }
-        }
+        this.#updatePermissions();
     }
 
     updateSorting() {
@@ -132,5 +107,39 @@ export default class extends Controller {
         el.querySelector('input, select:not(.choices__input), .tl_select.choices')?.focus();
 
         return true;
+    }
+
+    #deleteAllowed() {
+        return !(this.hasMinValue && this.bodyTarget.children.length === this.minValue);
+    }
+
+    #copyAllowed() {
+        return !(this.hasMaxValue && this.bodyTarget.children.length === this.maxValue);
+    }
+
+    #updatePermissions() {
+        if (this.hasMinValue) {
+            const enable = this.#deleteAllowed();
+
+            for (const el of this.deleteTargets) {
+                if (enable) {
+                    el.removeAttribute('disabled');
+                } else {
+                    el.disabled = true;
+                }
+            }
+        }
+
+        if (this.hasMaxValue) {
+            const enable = this.#copyAllowed();
+
+            for (const el of this.copyTargets) {
+                if (enable) {
+                    el.removeAttribute('disabled');
+                } else {
+                    el.disabled = true;
+                }
+            }
+        }
     }
 }

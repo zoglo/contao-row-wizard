@@ -60,6 +60,7 @@
                     {% set copy_button_attributes = attrs()
                         .set('type', 'button')
                         .set('data-action', controller_prefix ~ 'row-wizard#copy contao--scroll-offset#store')
+                        .set('data-' ~ controller_prefix ~ 'row-wizard-target', 'copy')
                     %}
                     <button{{ copy_button_attributes }}>{{ backend_icon('copy.svg', 'MSC.mw_copy'|trans) }}</button>
 
@@ -67,6 +68,7 @@
                     {% set delete_button_attributes = attrs()
                         .set('type', 'button')
                         .set('data-action', controller_prefix ~ 'row-wizard#delete contao--scroll-offset#store')
+                        .set('data-' ~ controller_prefix ~ 'row-wizard-target', 'delete')
                     %}
                     <button{{ delete_button_attributes }}>{{ backend_icon('delete.svg', 'MSC.mw_delete'|trans) }}</button>
 

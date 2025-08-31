@@ -1,8 +1,9 @@
 .simple_column_wizard {
     /* webpackIgnore: true */
-    --icon-visible: url(/system/themes/flexible/icons/visible.svg);
+    --icon-visible: url("/system/themes/flexible/icons/visible.svg");
+
     /* webpackIgnore: true */
-    --icon-invisible: url(/system/themes/flexible/icons/invisible.svg);
+    --icon-invisible: url("/system/themes/flexible/icons/invisible.svg");
 
     width: unset;
     max-width: unset;
@@ -45,6 +46,12 @@
     }
 }
 
+[data-scw--row-wizard-target="copy"][disabled],
+[data-scw--row-wizard-target="delete"][disabled] {
+    cursor: not-allowed;
+    filter: brightness(var(--disable-brightness, 0.2)) grayscale(1) opacity(0.3);
+}
+
 .scw-drag-handle {
     background: none;
     border: 0;
@@ -53,13 +60,14 @@
     vertical-align: middle;
 }
 
-
 html[data-color-scheme="dark"] {
+    --disable-brightness: 5;
 
     .simple_column_wizard {
         /* webpackIgnore: true */
-        --icon-visible: url(/system/themes/flexible/icons/visible--dark.svg);
+        --icon-visible: url("/system/themes/flexible/icons/visible--dark.svg");
+
         /* webpackIgnore: true */
-        --icon-invisible: url(/system/themes/flexible/icons/invisible--dark.svg);
+        --icon-invisible: url("/system/themes/flexible/icons/invisible--dark.svg");
     }
 }
