@@ -34,6 +34,17 @@ export default class extends Controller {
         queueMicrotask(() => {
             const newRow = row.cloneNode(true);
 
+            // BC for MooChosen / Contao < 5.5
+            if (typeof Chosen !== "undefined") {
+                const selects = newRow.querySelectorAll('select.tl_select.tl_chosen');
+
+                for (const select of selects) {
+                    select.removeAttribute('id');
+                    select.nextSibling.remove();
+                    new Chosen(select);
+                }
+            }
+
             // Re-insert the previous and new row
             if (previous) {
                 previous.after(row, newRow);
