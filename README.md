@@ -75,3 +75,10 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
 **Output**
 
 ![Rendered example of the simple column wizard based on the configuration](/docs/images/simpleColumnWizard.jpg)
+
+## Known limitation
+
+The JavaScript for the following widgets does not work:
+
+- any eval `rte` (tinymce, ace)
+- color picker
