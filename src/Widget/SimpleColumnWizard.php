@@ -43,30 +43,24 @@ class SimpleColumnWizard extends Widget
      */
     public function __set($strKey, $varValue): void
     {
-        switch ($strKey)
-        {
+        switch ($strKey) {
             case 'mandatory':
-                if ($varValue)
-                {
+                if ($varValue) {
                     $this->arrAttributes['required'] = 'required';
-                }
-                else
-                {
+                } else {
                     unset($this->arrAttributes['required']);
                 }
                 parent::__set($strKey, $varValue);
                 break;
 
             case 'size':
-                if ($this->multiple)
-                {
+                if ($this->multiple) {
                     $this->arrAttributes['size'] = $varValue;
                 }
                 break;
 
             case 'multiple':
-                if ($varValue)
-                {
+                if ($varValue) {
                     $this->arrAttributes['multiple'] = 'multiple';
                 }
                 break;
@@ -80,19 +74,16 @@ class SimpleColumnWizard extends Widget
                 break;
 
             case 'maxlength':
-                if ($varValue > 0)
-                {
+                if ($varValue > 0) {
                     $this->arrAttributes['maxlength'] = $varValue;
                 }
                 break;
 
             case 'min':
-                // ToDo: Should we validate the row amount serverside?
                 $this->min = $varValue ?? null;
                 break;
 
             case 'max':
-                // ToDo: Should we validate the row amount serverside?
                 $this->max = $varValue ?? null;
                 break;
 
@@ -110,8 +101,7 @@ class SimpleColumnWizard extends Widget
     {
         $varValue = $this->getPost($this->strName);
 
-        if ($this->hasErrors())
-        {
+        if ($this->hasErrors()) {
             $this->class = 'error';
         }
 
@@ -124,20 +114,27 @@ class SimpleColumnWizard extends Widget
     public function generate()
     {
         // Make sure there is at least an empty array
-        if (!\is_array($this->varValue) || $this->varValue === [])
-        {
+        if (!\is_array($this->varValue) || $this->varValue === []) {
             $this->varValue = [['']];
+        }
+
+        // Populate the rows if the initial count has not been reached
+        if ($this->min !== null) {
+            $rowCount = count($this->varValue);
+
+            while ($rowCount < $this->min) {
+                $this->varValue[] = [''];
+                $rowCount++;
+            }
         }
 
         $labels = $rows = [];
 
-        for ($i = 0, $c = \count($this->varValue); $i < $c; ++$i)
-        {
+        for ($i = 0, $c = \count($this->varValue); $i < $c; ++$i) {
             $columns = [];
             $labels = [];
 
-            foreach ($this->arrColumnFields as $key => $options)
-            {
+            foreach ($this->arrColumnFields as $key => $options) {
                 $widget = $this->prepareWidget($key, $options, $i);
 
                 if (null !== $widget) {
@@ -157,7 +154,7 @@ class SimpleColumnWizard extends Widget
                 'columns' => $columns,
                 'controls' => [
                     'enable' => $this->varValue[$i]['enable'] ?? false,
-                    'edit'   => ($this->varValue[$i]['id'] ?? 0) > 0,
+                    'edit' => ($this->varValue[$i]['id'] ?? 0) > 0,
                 ],
             ];
         }
