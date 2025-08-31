@@ -83,7 +83,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
 
 ## Known limitation
 
-The JavaScript for the following widgets does not work:
+The following fields do not work:
 
 - any eval `rte` (tinymce, ace)
 - color picker
