@@ -25,7 +25,7 @@ composer require zoglo/contao-simple-column-wizard
 ```php
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
-use Zoglo\ContaoSimpleColumnWizard\EventListener\ColumnWizardListener;
+use Zoglo\SimpleColumnWizardBundle\EventListener\ColumnWizardListener;
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
     'label' => ['columnWizardOne', 'And some random description'], // Or a &$GLOBALS['TL_LANG'] pointer
