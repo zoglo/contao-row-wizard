@@ -23,7 +23,7 @@ class SimpleColumnWizard extends Widget
 
     private bool $sortable = true;
 
-    private array $actions = ['copy', 'delete', 'enable'];
+    private array $actions = ['copy', 'delete'];
 
     private bool $reverseSortable;
 
