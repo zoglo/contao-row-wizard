@@ -35,7 +35,7 @@ export default class extends Controller {
             const newRow = row.cloneNode(true);
 
             // BC for MooChosen / Contao < 5.5
-            if (typeof Chosen !== "undefined") {
+            if (typeof Chosen !== 'undefined') {
                 const selects = newRow.querySelectorAll('select.tl_select.tl_chosen');
 
                 for (const select of selects) {
