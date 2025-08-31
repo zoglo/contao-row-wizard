@@ -32,6 +32,10 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
     'inputType' => 'simpleColumnWizard',
     'eval' => [
         'tl_class' => 'clr',
+        'actions' => [ // actions to be shown ['copy', 'delete', 'enable'] // 'edit' does not work yet
+            'copy',
+            'delete',
+        ],
         //'sortable' => false, // disables sorting the rows
         'min' => 2, // minimum amount of rows
         'max' => 5, // maximum amount of rows

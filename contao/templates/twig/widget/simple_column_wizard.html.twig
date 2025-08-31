@@ -50,48 +50,56 @@
                 {# Controls #}
                 <td class="tl_right">
                     {# Edit #}
-                    {% set edit_anchor_attributes = attrs()
-                        .set('title', 'MSC.editElement'|trans)
-                        .addClass(['module_link', 'hidden'])
-                    %}
-                    <a{{ edit_anchor_attributes }}></a>
+                    {#{% if 'edit' in actions %}
+                        {% set edit_anchor_attributes = attrs()
+                            .set('title', 'MSC.editElement'|trans)
+                            .addClass(['module_link', 'hidden'])
+                        %}
+                        <a{{ edit_anchor_attributes }}></a>
+                    {% endif %}#}
 
                     {# Copy row #}
-                    {% set copy_button_attributes = attrs()
-                        .set('type', 'button')
-                        .set('data-action', controller_prefix ~ 'row-wizard#copy contao--scroll-offset#store')
-                        .set('data-' ~ controller_prefix ~ 'row-wizard-target', 'copy')
-                    %}
-                    <button{{ copy_button_attributes }}>{{ backend_icon('copy.svg', 'MSC.mw_copy'|trans) }}</button>
+                    {% if 'copy' in actions %}
+                        {% set copy_button_attributes = attrs()
+                            .set('type', 'button')
+                            .set('data-action', controller_prefix ~ 'row-wizard#copy contao--scroll-offset#store')
+                            .set('data-' ~ controller_prefix ~ 'row-wizard-target', 'copy')
+                        %}
+                        <button{{ copy_button_attributes }}>{{ backend_icon('copy.svg', 'MSC.mw_copy'|trans) }}</button>
+                    {% endif %}
 
                     {# Delete row #}
-                    {% set delete_button_attributes = attrs()
-                        .set('type', 'button')
-                        .set('data-action', controller_prefix ~ 'row-wizard#delete contao--scroll-offset#store')
-                        .set('data-' ~ controller_prefix ~ 'row-wizard-target', 'delete')
-                    %}
-                    <button{{ delete_button_attributes }}>{{ backend_icon('delete.svg', 'MSC.mw_delete'|trans) }}</button>
+                    {% if 'delete' in actions %}
+                        {% set delete_button_attributes = attrs()
+                            .set('type', 'button')
+                            .set('data-action', controller_prefix ~ 'row-wizard#delete contao--scroll-offset#store')
+                            .set('data-' ~ controller_prefix ~ 'row-wizard-target', 'delete')
+                        %}
+                        <button{{ delete_button_attributes }}>{{ backend_icon('delete.svg', 'MSC.mw_delete'|trans) }}</button>
+                    {% endif %}
 
                     {# Enable checkbox #}
-                    {% set enable_input_attributes = attrs()
-                        .set('id', "#{id}_#{loop.index0}_enable")
-                        .set('name', "#{id}[#{loop.index0}][enable]")
-                        .set('type', 'checkbox')
-                        .set('checked', condition: row.controls.enable)
-                        .set('value', '1')
-                        .set('data-action', 'focus->contao--scroll-offset#store')
-                        .addClass('tl_checkbox mw_enable')
-                    %}
-                    <input{{ enable_input_attributes }}>
+                    {% if 'enable' in actions %}
+                        {% set enable_input_attributes = attrs()
+                            .set('id', "#{id}_#{loop.index0}_enable")
+                            .set('name', "#{id}[#{loop.index0}][enable]")
+                            .set('type', 'checkbox')
+                            .set('checked', condition: row.controls.enable)
+                            .set('value', '1')
+                            .set('data-action', 'focus->contao--scroll-offset#store')
+                            .addClass('tl_checkbox mw_enable')
+                        %}
+                        <input{{ enable_input_attributes }}>
 
-                    {% set enable_label_attributes = attrs()
-                        .set('for', "#{id}_#{loop.index0}_enable")
-                        .set('title', 'MSC.mw_enable'|trans)
-                        .set('data-contao--tooltips-target', 'tooltip')
-                        .set('data-action', 'click->contao--scroll-offset#store')
-                        .addClass('mw_enable')
-                    %}
-                    <label{{ enable_label_attributes }}>{{ 'MSC.mw_enable'|trans }}</label>
+                        {% set enable_label_attributes = attrs()
+                            .set('for', "#{id}_#{loop.index0}_enable")
+                            .set('title', 'MSC.mw_enable'|trans)
+                            .set('data-contao--tooltips-target', 'tooltip')
+                            .set('data-action', 'click->contao--scroll-offset#store')
+                            .addClass('mw_enable')
+                        %}
+                        <label{{ enable_label_attributes }}>{{ 'MSC.mw_enable'|trans }}</label>
+                    {% endif %}
 
                     {% if sortable and not reverseSortable %}
                         {% set drag_handle_attributes = attrs()

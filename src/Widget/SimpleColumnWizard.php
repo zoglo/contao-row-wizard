@@ -23,6 +23,8 @@ class SimpleColumnWizard extends Widget
 
     private bool $sortable = true;
 
+    private array $actions = ['copy', 'delete', 'enable'];
+
     private bool $reverseSortable;
 
     public function __construct($arrAttributes = null)
@@ -89,6 +91,12 @@ class SimpleColumnWizard extends Widget
 
             case 'sortable':
                 $this->sortable = $varValue ?? false;
+                break;
+
+            case 'actions':
+                if (is_array($varValue)) {
+                    $this->actions = $varValue;
+                }
                 break;
 
             default:
@@ -167,6 +175,7 @@ class SimpleColumnWizard extends Widget
             'max_rows' => $this->max,
             'sortable' => $this->sortable,
             'reverseSortable' => $this->reverseSortable,
+            'actions' => $this->actions,
         ]);
     }
 

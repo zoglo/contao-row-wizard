@@ -2,7 +2,7 @@
   "entrypoints": {
     "simple-column-wizard": {
       "css": [
-        "/bundles/zoglosimplecolumnwizard/simple-column-wizard.d7500753.css"
+        "/bundles/zoglosimplecolumnwizard/simple-column-wizard.c9792c74.css"
       ],
       "js": [
         "/bundles/zoglosimplecolumnwizard/simple-column-wizard.f482bd4e.js"
