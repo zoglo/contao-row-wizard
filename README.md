@@ -87,3 +87,4 @@ The JavaScript for the following widgets does not work:
 
 - any eval `rte` (tinymce, ace)
 - color picker
+- filetree

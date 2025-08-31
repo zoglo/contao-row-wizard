@@ -204,20 +204,6 @@ class SimpleColumnWizard extends Widget
 
         $widget = new $widgetClass($data);
 
-        /*$blnFileTree = false;
-
-        // Create custom FileTree Picker
-        if ('fileTree' === $options['inputType'])
-        {
-            $strFilePicker = $objWidget->parse();
-
-            $blnFileTree = true;
-        }
-
-        $strFields .= vsprintf('<td>%s</td>', [
-            $blnFileTree ? $strFilePicker : $objWidget->parse(),
-        ]);*/
-
         return $widget;
     }
 }
