@@ -12,7 +12,7 @@
 <table{{ table_attributes }}>
     <thead>
     <tr>
-        {% if sortable and reverseSortable %}
+        {% if sortable %}
             <th></th>
         {% endif %}
         {% for cell in header %}
@@ -32,7 +32,7 @@
     <tbody{{ table_body_attributes }}>
         {% for row in rows %}
             <tr data-{{ controller_prefix }}row-wizard-target="row">
-                {% if sortable and reverseSortable %}
+                {% if sortable %}
                     <td>
                         {% set drag_handle_attributes = attrs()
                             .set('type', 'button')
@@ -99,15 +99,6 @@
                             .addClass('mw_enable')
                         %}
                         <label{{ enable_label_attributes }}>{{ 'MSC.mw_enable'|trans }}</label>
-                    {% endif %}
-
-                    {% if sortable and not reverseSortable %}
-                        {% set drag_handle_attributes = attrs()
-                            .set('type', 'button')
-                            .set('data-action', 'keydown->' ~ controller_prefix ~ 'sortable#move')
-                            .addClass(['drag-handle', 'zrw-drag-handle'])
-                        %}
-                        <button{{ drag_handle_attributes}}>{{ backend_icon('drag.svg', 'MSC.move'|trans) }}</button>
                     {% endif %}
                 </td>
             </tr>

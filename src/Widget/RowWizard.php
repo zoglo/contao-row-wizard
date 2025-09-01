@@ -25,8 +25,6 @@ class RowWizard extends Widget
 
     private array $actions = ['copy', 'delete'];
 
-    private bool $reverseSortable;
-
     private array $widgets = [];
 
     public function __construct($arrAttributes = null)
@@ -35,7 +33,6 @@ class RowWizard extends Widget
 
         $this->preserveTags = true;
         $this->decodeEntities = true;
-        $this->reverseSortable = (bool) version_compare(ContaoCoreBundle::getVersion(), '5.6', '>=');
     }
 
     /**
