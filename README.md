@@ -3,9 +3,9 @@
 
 <h1 align="center">Contao Row Wizard</h1>
 <p align="center">
-    <a href="https://github.com/zoglo/contao-simple-column-wizard"><img src="https://img.shields.io/github/v/release/zoglo/contao-simple-column-wizard" alt="github version"/></a>
-    <a href="https://packagist.org/packages/zoglo/contao-simple-column-wizard"><img src="https://img.shields.io/packagist/dt/zoglo/contao-simple-column-wizard?color=f47c00" alt="amount of downloads"/></a>
-    <a href="https://packagist.org/packages/zoglo/contao-simple-column-wizard"><img src="https://img.shields.io/packagist/dependency-v/zoglo/contao-simple-column-wizard/php?color=474A8A" alt="minimum php version"></a>
+    <a href="https://github.com/zoglo/contao-row-wizard"><img src="https://img.shields.io/github/v/release/zoglo/contao-row-wizard" alt="github version"/></a>
+    <a href="https://packagist.org/packages/zoglo/contao-row-wizard"><img src="https://img.shields.io/packagist/dt/zoglo/contao-row-wizard?color=f47c00" alt="amount of downloads"/></a>
+    <a href="https://packagist.org/packages/zoglo/contao-row-wizard"><img src="https://img.shields.io/packagist/dependency-v/zoglo/contao-row-wizard/php?color=474A8A" alt="minimum php version"></a>
 </p>
 
 ## Description
@@ -29,7 +29,7 @@ use Zoglo\RowWizardBundle\EventListener\ColumnWizardListener;
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
     'label' => ['columnWizardOne', 'And some random description'], // Or a &$GLOBALS['TL_LANG'] pointer
-    'inputType' => 'simpleColumnWizard',
+    'inputType' => 'rowWizard',
     'eval' => [
         'tl_class' => 'clr',
         'actions' => [ // actions to be shown. Default: 'copy', 'delete' // 'edit' does not work yet
@@ -79,7 +79,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
 
 **Output**
 
-![Rendered example of the simple column wizard based on the configuration](/docs/images/simpleColumnWizard.jpg)
+![Rendered example of the row wizard based on the configuration](/docs/images/rowWizard.jpg)
 
 ## Known limitation
 
