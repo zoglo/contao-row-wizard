@@ -5,6 +5,7 @@
     .set('id', 'ctrl_' ~ id)
     .addClass(['zoglo_row_wizard'])
     .set('data-controller', controller_prefix ~ 'row-wizard')
+    .setIfExists('style', style|default)
     .setIfExists('data-'~ controller_prefix ~ 'row-wizard-min-value', min_rows|default)
     .setIfExists('data-'~ controller_prefix ~ 'row-wizard-max-value', max_rows|default)
 %}

@@ -70,6 +70,10 @@ class RowWizard extends Widget
                 }
                 break;
 
+            case 'style':
+                $this->style = $varValue ?? null;
+                break;
+
             default:
                 parent::__set($strKey, $varValue);
                 break;
@@ -180,6 +184,7 @@ class RowWizard extends Widget
 
         return System::getContainer()->get('twig')->render('@Contao/widget/row_wizard.html.twig', [
             'id' => $this->strId,
+            'style' => $this->style,
             'header' => $header,
             'rows' => $rows,
             'min_rows' => $this->min,
