@@ -2,8 +2,8 @@ services:
     _defaults:
         autoconfigure: true
 
-    zoglo_simple_column_wizard.listener.add_assets:
-        class: Zoglo\SimpleColumnWizardBundle\EventListener\AddAssetsListener
+    zoglo_row_wizard.listener.add_assets:
+        class: Zoglo\RowWizardBundle\EventListener\AddAssetsListener
         arguments:
             - '@contao.routing.scope_matcher'
             - '@assets.packages'

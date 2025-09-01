@@ -1,11 +1,11 @@
 > [!WARNING]
 > Do not use this plugin in production
 
-<h1 align="center">Contao Simple Column Wizard</h1>
+<h1 align="center">Contao Row Wizard</h1>
 <p align="center">
-    <a href="https://github.com/zoglo/contao-simple-column-wizard"><img src="https://img.shields.io/github/v/release/zoglo/contao-simple-column-wizard" alt="github version"/></a>
-    <a href="https://packagist.org/packages/zoglo/contao-simple-column-wizard"><img src="https://img.shields.io/packagist/dt/zoglo/contao-simple-column-wizard?color=f47c00" alt="amount of downloads"/></a>
-    <a href="https://packagist.org/packages/zoglo/contao-simple-column-wizard"><img src="https://img.shields.io/packagist/dependency-v/zoglo/contao-simple-column-wizard/php?color=474A8A" alt="minimum php version"></a>
+    <a href="https://github.com/zoglo/contao-row-wizard"><img src="https://img.shields.io/github/v/release/zoglo/contao-row-wizard" alt="github version"/></a>
+    <a href="https://packagist.org/packages/zoglo/contao-row-wizard"><img src="https://img.shields.io/packagist/dt/zoglo/contao-row-wizard?color=f47c00" alt="amount of downloads"/></a>
+    <a href="https://packagist.org/packages/zoglo/contao-row-wizard"><img src="https://img.shields.io/packagist/dependency-v/zoglo/contao-row-wizard/php?color=474A8A" alt="minimum php version"></a>
 </p>
 
 ## Description
@@ -17,7 +17,7 @@ This bundle adds a widget that allows adding multiple rows, with each row contai
 ### Via composer
 
 ```
-composer require zoglo/contao-simple-column-wizard
+composer require zoglo/contao-row-wizard
 ```
 
 ## Configuration
@@ -25,11 +25,11 @@ composer require zoglo/contao-simple-column-wizard
 ```php
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
-use Zoglo\SimpleColumnWizardBundle\EventListener\ColumnWizardListener;
+use Zoglo\RowWizardBundle\EventListener\ColumnWizardListener;
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
     'label' => ['columnWizardOne', 'And some random description'], // Or a &$GLOBALS['TL_LANG'] pointer
-    'inputType' => 'simpleColumnWizard',
+    'inputType' => 'rowWizard',
     'eval' => [
         'tl_class' => 'clr',
         'actions' => [ // actions to be shown. Default: 'copy', 'delete' // 'edit' does not work yet
@@ -42,7 +42,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
         'max' => 5, // maximum amount of rows
         'columnFields' => [
             'type' => [
-                'label' => 'Type', // Or a &$GLOBALS['TL_LANG'] pointer
+                'label' => ['Type'], // Or a &$GLOBALS['TL_LANG'] pointer
                 'inputType' => 'select',
                 'options' => ['foo', 'bar', 'baz', 'quux'],
                 'eval' => [
@@ -51,15 +51,15 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
                 ],
             ],
             'checkbox' => [
-                'label' => 'Checkbox', // Or a &$GLOBALS['TL_LANG'] pointer
+                'label' => ['Checkbox'], // Or a &$GLOBALS['TL_LANG'] pointer
                 'inputType' => 'checkbox',
             ],
             'textarea' => [
-                'label' => 'Textarea', // Or a &$GLOBALS['TL_LANG'] pointer
+                'label' => ['Textarea'], // Or a &$GLOBALS['TL_LANG'] pointer
                 'inputType' => 'textarea',
             ],
             'text' => [
-                'label' => 'Text', // Or a &$GLOBALS['TL_LANG'] pointer
+                'label' => ['Text'], // Or a &$GLOBALS['TL_LANG'] pointer
                 'inputType' => 'text',
             ],
         ],
@@ -79,7 +79,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
 
 **Output**
 
-![Rendered example of the simple column wizard based on the configuration](/docs/images/simpleColumnWizard.jpg)
+![Rendered example of the row wizard based on the configuration](/docs/images/rowWizard.jpg)
 
 ## Known limitation
 

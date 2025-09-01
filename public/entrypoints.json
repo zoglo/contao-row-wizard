@@ -1,11 +1,11 @@
 {
   "entrypoints": {
-    "simple-column-wizard": {
+    "row-wizard": {
       "css": [
-        "/bundles/zoglosimplecolumnwizard/simple-column-wizard.c9792c74.css"
+        "/bundles/zoglorowwizard/row-wizard.3b1cb598.css"
       ],
       "js": [
-        "/bundles/zoglosimplecolumnwizard/simple-column-wizard.f482bd4e.js"
+        "/bundles/zoglorowwizard/row-wizard.65a24cdb.js"
       ]
     }
   }
