@@ -16,7 +16,7 @@ class Plugin implements BundlePluginInterface
     {
         return [
             (new BundleConfig(ZogloRowWizardBundle::class))
-                ->setLoadAfter([ContaoCoreBundle::class])
+                ->setLoadAfter([ContaoCoreBundle::class]),
         ];
     }
 }

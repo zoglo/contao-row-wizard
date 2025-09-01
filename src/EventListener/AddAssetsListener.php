@@ -12,8 +12,10 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 #[AsEventListener]
 class AddAssetsListener
 {
-    public function __construct(private readonly ScopeMatcher $scopeMatcher, private readonly Packages $package)
-    {
+    public function __construct(
+        private readonly ScopeMatcher $scopeMatcher,
+        private readonly Packages $package,
+    ) {
     }
 
     public function __invoke(RequestEvent $event): void

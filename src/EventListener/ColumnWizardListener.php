@@ -10,16 +10,16 @@ class ColumnWizardListener
 {
     public static function clearEmptyRowWithEmptyFirstValue($var): string
     {
-        if ($var === '') {
+        if ('' === $var) {
             return $var;
         }
 
-        if (\count($values = StringUtil::deserialize($var, true)) === 0) {
+        if (0 === \count($values = StringUtil::deserialize($var, true))) {
             return '';
         }
 
         // Do not reset if there is more than one row
-        if (\count($values) !== 1) {
+        if (1 !== \count($values)) {
             return $var;
         }
 

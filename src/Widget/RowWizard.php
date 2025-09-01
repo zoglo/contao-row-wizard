@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Zoglo\RowWizardBundle\Widget;
 
-use Contao\CoreBundle\ContaoCoreBundle;
-use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
 
@@ -67,7 +65,7 @@ class RowWizard extends Widget
                 break;
 
             case 'actions':
-                if (is_array($varValue)) {
+                if (\is_array($varValue)) {
                     $this->actions = array_intersect(['copy', 'delete', 'enable'], $varValue);
                 }
                 break;
@@ -111,17 +109,17 @@ class RowWizard extends Widget
     public function generate(): string
     {
         // Make sure there is at least an empty array
-        if (!\is_array($this->varValue) || $this->varValue === []) {
+        if (!\is_array($this->varValue) || [] === $this->varValue) {
             $this->varValue = [['']];
         }
 
         // Populate the rows if the initial count has not been reached
-        if ($this->min !== null) {
-            $rowCount = count($this->varValue);
+        if (null !== $this->min) {
+            $rowCount = \count($this->varValue);
 
             while ($rowCount < $this->min) {
                 $this->varValue[] = [''];
-                $rowCount++;
+                ++$rowCount;
             }
         }
 
@@ -192,18 +190,18 @@ class RowWizard extends Widget
         /** @var class-string<Widget> $widgetClass */
         $widgetClass = $GLOBALS['BE_FFL'][$options['inputType']];
 
-        if (!\class_exists($widgetClass)) {
+        if (!class_exists($widgetClass)) {
             return null;
         }
 
         $data = $widgetClass::getAttributesFromDca($options, $type, $value, $this->strField, $this->strTable, $this->objDca);
 
-        $data['name'] = $this->strId . '[' . $increment . '][' . $data['name'] . ']';
+        $data['name'] = $this->strId.'['.$increment.']['.$data['name'].']';
 
-        if (\in_array($data['type'] ?? null, ['checkbox', 'label'])) {
+        if (\in_array($data['type'] ?? null, ['checkbox', 'label'], true)) {
             $data['id'] = $data['name'];
         } else {
-            $data['id'] .= '_' . $increment;
+            $data['id'] .= '_'.$increment;
         }
 
         return $this->widgets[$increment][$type] = new $widgetClass($data);

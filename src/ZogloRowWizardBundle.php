@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zoglo\RowWizardBundle;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
