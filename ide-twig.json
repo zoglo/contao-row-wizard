@@ -2,7 +2,7 @@
   "namespaces": [
     {
       "namespace": "Contao",
-      "path": "contao/templates/twig"
+      "path": "contao/templates"
     }
   ]
 }
