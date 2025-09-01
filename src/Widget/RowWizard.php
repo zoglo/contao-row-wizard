@@ -175,7 +175,6 @@ class RowWizard extends Widget
             'min_rows' => $this->min,
             'max_rows' => $this->max,
             'sortable' => $this->sortable,
-            'reverseSortable' => $this->reverseSortable,
             'actions' => $this->actions,
         ]);
     }
