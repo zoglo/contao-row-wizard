@@ -135,6 +135,18 @@ class RowWizard extends Widget
             $header = [];
 
             foreach ($this->arrColumnFields as $key => $options) {
+                if (\is_array($options['input_field_callback'] ?? null)) {
+                    $header[] = [];
+                    $columns[] = System::importStatic($options['input_field_callback'][0])->{$options['input_field_callback'][1]}($this->objDca);
+                    continue;
+                }
+
+                if (\is_callable($options['input_field_callback'] ?? null)) {
+                    $header[] = [];
+                    $columns[] = $options['input_field_callback']($this->objDca);
+                    continue;
+                }
+
                 $widget = $this->prepareWidget($key, $this->varValue[$i][$key] ?? null, $options, $i);
 
                 if (null !== $widget) {
