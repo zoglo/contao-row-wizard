@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 #[AsEventListener]
-class AddAssetsListener
+class BackendAssetsListener
 {
     public function __construct(
         private readonly ScopeMatcher $scopeMatcher,

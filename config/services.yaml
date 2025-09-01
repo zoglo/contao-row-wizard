@@ -3,7 +3,7 @@ services:
         autoconfigure: true
 
     zoglo_row_wizard.listener.add_assets:
-        class: Zoglo\RowWizardBundle\EventListener\AddAssetsListener
+        class: Zoglo\RowWizardBundle\EventListener\BackendAssetsListener
         arguments:
             - '@contao.routing.scope_matcher'
             - '@assets.packages'
