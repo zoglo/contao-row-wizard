@@ -30,6 +30,29 @@ use Zoglo\RowWizardBundle\EventListener\ColumnWizardListener;
 $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
     'label' => ['columnWizardOne', 'And some random description'], // Or a &$GLOBALS['TL_LANG'] pointer
     'inputType' => 'rowWizard',
+    'fields' => [
+        'type' => [
+            'label' => ['Type'], // Or a &$GLOBALS['TL_LANG'] pointer
+            'inputType' => 'select',
+            'options' => ['foo', 'bar', 'baz', 'quux'],
+            'eval' => [
+                'includeBlankOption' => true,
+                'chosen' => true,
+            ],
+        ],
+        'checkbox' => [
+            'label' => ['Checkbox'], // Or a &$GLOBALS['TL_LANG'] pointer
+            'inputType' => 'checkbox',
+        ],
+        'textarea' => [
+            'label' => ['Textarea'], // Or a &$GLOBALS['TL_LANG'] pointer
+            'inputType' => 'textarea',
+        ],
+        'text' => [
+            'label' => ['Text'], // Or a &$GLOBALS['TL_LANG'] pointer
+            'inputType' => 'text',
+        ],
+    ],
     'eval' => [
         'tl_class' => 'clr',
         'actions' => [ // actions to be shown. Default: 'copy', 'delete' // 'edit' does not work yet
@@ -40,29 +63,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
         //'sortable' => false, // disables sorting the rows
         'min' => 2, // minimum amount of rows
         'max' => 5, // maximum amount of rows
-        'columnFields' => [
-            'type' => [
-                'label' => ['Type'], // Or a &$GLOBALS['TL_LANG'] pointer
-                'inputType' => 'select',
-                'options' => ['foo', 'bar', 'baz', 'quux'],
-                'eval' => [
-                    'includeBlankOption' => true,
-                    'chosen' => true,
-                ],
-            ],
-            'checkbox' => [
-                'label' => ['Checkbox'], // Or a &$GLOBALS['TL_LANG'] pointer
-                'inputType' => 'checkbox',
-            ],
-            'textarea' => [
-                'label' => ['Textarea'], // Or a &$GLOBALS['TL_LANG'] pointer
-                'inputType' => 'textarea',
-            ],
-            'text' => [
-                'label' => ['Text'], // Or a &$GLOBALS['TL_LANG'] pointer
-                'inputType' => 'text',
-            ],
-        ],
     ],
     'save_callback' => [
         // A callback to use when you want to reset the row based on the first value being empty
