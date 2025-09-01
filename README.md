@@ -64,10 +64,6 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
         'min' => 2, // minimum amount of rows
         'max' => 5, // maximum amount of rows
     ],
-    'save_callback' => [
-        // A callback to use when you want to reset the row based on the first value being empty
-        [ColumnWizardListener::class, 'clearEmptyRowWithEmptyFirstValue'],
-    ],
     'sql' => [
         'type' => 'blob',
         'length' => AbstractMySQLPlatform::LENGTH_LIMIT_BLOB,
@@ -80,6 +76,39 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
 **Output**
 
 ![Rendered example of the row wizard based on the configuration](/docs/images/rowWizard.jpg)
+
+## Examples
+
+In some cases, you may not want to save any value if there is only one row and the first value is empty.
+You can implement your own callback function for the save callback like this:
+
+```php
+#[AsCallback(table: 'tl_content', target: 'fields.columnWizardOne.save')]
+class ContentTextSaveCallback
+{
+    public function __invoke($value, DataContainer $dc)
+    {
+        if ('' === $value) {
+            return $value;
+        }
+
+        if (0 === \count($values = StringUtil::deserialize($value, true))) {
+            return '';
+        }
+
+        // Do not reset if there is more than one row
+        if (1 !== \count($values)) {
+            return $value;
+        }
+
+        if (($values[0][array_key_first($values[0])] ?? '') === '') {
+            return '';
+        }
+
+        return $value;
+    }
+}
+```
 
 ## Known limitation
 
