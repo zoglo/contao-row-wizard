@@ -42,7 +42,7 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
         'max' => 5, // maximum amount of rows
         'columnFields' => [
             'type' => [
-                'label' => 'Type', // Or a &$GLOBALS['TL_LANG'] pointer
+                'label' => ['Type'], // Or a &$GLOBALS['TL_LANG'] pointer
                 'inputType' => 'select',
                 'options' => ['foo', 'bar', 'baz', 'quux'],
                 'eval' => [
@@ -51,15 +51,15 @@ $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
                 ],
             ],
             'checkbox' => [
-                'label' => 'Checkbox', // Or a &$GLOBALS['TL_LANG'] pointer
+                'label' => ['Checkbox'], // Or a &$GLOBALS['TL_LANG'] pointer
                 'inputType' => 'checkbox',
             ],
             'textarea' => [
-                'label' => 'Textarea', // Or a &$GLOBALS['TL_LANG'] pointer
+                'label' => ['Textarea'], // Or a &$GLOBALS['TL_LANG'] pointer
                 'inputType' => 'textarea',
             ],
             'text' => [
-                'label' => 'Text', // Or a &$GLOBALS['TL_LANG'] pointer
+                'label' => ['Text'], // Or a &$GLOBALS['TL_LANG'] pointer
                 'inputType' => 'text',
             ],
         ],
