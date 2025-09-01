@@ -13,7 +13,7 @@ class RowWizard extends Widget
 
     protected $strTemplate = 'be_widget_zrw';
 
-    protected array $arrColumnFields = [];
+    protected array $arrFields = [];
 
     private int|null $min = null;
 
@@ -48,8 +48,8 @@ class RowWizard extends Widget
                 parent::__set($strKey, $varValue);
                 break;
 
-            case 'columnFields':
-                $this->arrColumnFields = $varValue;
+            case 'fields':
+                $this->arrFields = $varValue;
                 break;
 
             case 'min':
@@ -76,13 +76,25 @@ class RowWizard extends Widget
         }
     }
 
+    public function __get($strKey)
+    {
+        return match ($strKey) {
+            'fields' => $this->arrFields,
+            'min' => $this->min,
+            'max' => $this->max,
+            'sortable' => $this->sortable,
+            'actions' => $this->actions,
+            default => parent::__get($strKey),
+        };
+    }
+
     public function validate(): void
     {
         $varValue = [];
         $varPost = $this->getPost($this->strName);
 
         for ($i = 0, $c = \count($varPost); $i < $c; ++$i) {
-            foreach ($this->arrColumnFields as $key => $options) {
+            foreach ($this->arrFields as $key => $options) {
                 $widget = $this->prepareWidget($key, $this->varValue[$i][$key] ?? null, $options, $i);
 
                 if (null === $widget) {
@@ -129,7 +141,7 @@ class RowWizard extends Widget
             $columns = [];
             $header = [];
 
-            foreach ($this->arrColumnFields as $key => $options) {
+            foreach ($this->arrFields as $key => $options) {
                 if (\is_array($options['input_field_callback'] ?? null)) {
                     $header[] = [];
                     $columns[] = System::importStatic($options['input_field_callback'][0])->{$options['input_field_callback'][1]}($this->objDca);
@@ -175,6 +187,17 @@ class RowWizard extends Widget
             'sortable' => $this->sortable,
             'actions' => $this->actions,
         ]);
+    }
+
+    public static function getAttributesFromDca($arrData, $strName, $varValue = null, $strField = '', $strTable = '', $objDca = null): array
+    {
+        $attributes = parent::getAttributesFromDca($arrData, $strName, $varValue, $strField, $strTable, $objDca);
+
+        if (isset($arrData['fields']) && !isset($attributes['fields'])) {
+            $attributes['fields'] = $arrData['fields'];
+        }
+
+        return $attributes;
     }
 
     private function prepareWidget(string $type, mixed $value, array $options, int $increment): Widget|null
