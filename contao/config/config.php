@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-use Zoglo\SimpleColumnWizardBundle\Widget\SimpleColumnWizard;
+use Zoglo\RowWizardBundle\Widget\RowWizard;
 
-$GLOBALS['BE_FFL']['simpleColumnWizard'] = SimpleColumnWizard::class;
+$GLOBALS['BE_FFL']['rowWizard'] = RowWizard::class;

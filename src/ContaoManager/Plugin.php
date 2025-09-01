@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Zoglo\SimpleColumnWizardBundle\ContaoManager;
+namespace Zoglo\RowWizardBundle\ContaoManager;
 
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\BundlePluginInterface;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
 use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
-use Zoglo\SimpleColumnWizardBundle\ZogloSimpleColumnWizardBundle;
+use Zoglo\RowWizardBundle\ZogloRowWizardBundle;
 
 class Plugin implements BundlePluginInterface
 {
     public function getBundles(ParserInterface $parser): array
     {
         return [
-            (new BundleConfig(ZogloSimpleColumnWizardBundle::class))
+            (new BundleConfig(ZogloRowWizardBundle::class))
                 ->setLoadAfter([ContaoCoreBundle::class])
         ];
     }

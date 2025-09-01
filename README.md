@@ -1,7 +1,7 @@
 > [!WARNING]
 > Do not use this plugin in production
 
-<h1 align="center">Contao Simple Column Wizard</h1>
+<h1 align="center">Contao Row Wizard</h1>
 <p align="center">
     <a href="https://github.com/zoglo/contao-simple-column-wizard"><img src="https://img.shields.io/github/v/release/zoglo/contao-simple-column-wizard" alt="github version"/></a>
     <a href="https://packagist.org/packages/zoglo/contao-simple-column-wizard"><img src="https://img.shields.io/packagist/dt/zoglo/contao-simple-column-wizard?color=f47c00" alt="amount of downloads"/></a>
@@ -17,7 +17,7 @@ This bundle adds a widget that allows adding multiple rows, with each row contai
 ### Via composer
 
 ```
-composer require zoglo/contao-simple-column-wizard
+composer require zoglo/contao-row-wizard
 ```
 
 ## Configuration
@@ -25,7 +25,7 @@ composer require zoglo/contao-simple-column-wizard
 ```php
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
-use Zoglo\SimpleColumnWizardBundle\EventListener\ColumnWizardListener;
+use Zoglo\RowWizardBundle\EventListener\ColumnWizardListener;
 
 $GLOBALS['TL_DCA']['tl_content']['fields']['columnWizardOne'] = [
     'label' => ['columnWizardOne', 'And some random description'], // Or a &$GLOBALS['TL_LANG'] pointer

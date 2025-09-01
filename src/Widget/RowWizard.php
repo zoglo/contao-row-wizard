@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Zoglo\SimpleColumnWizardBundle\Widget;
+namespace Zoglo\RowWizardBundle\Widget;
 
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Widget;
 
-class SimpleColumnWizard extends Widget
+class RowWizard extends Widget
 {
     protected $blnSubmitInput = true;
 
-    protected $strTemplate = 'be_widget_scw';
+    protected $strTemplate = 'be_widget_zrw';
 
     protected array $arrColumnFields = [];
 
@@ -167,7 +167,7 @@ class SimpleColumnWizard extends Widget
             ];
         }
 
-        return System::getContainer()->get('twig')->render('@Contao/widget/simple_column_wizard.html.twig', [
+        return System::getContainer()->get('twig')->render('@Contao/widget/row_wizard.html.twig', [
             'id' => $this->strId,
             'labels' => $labels,
             'rows' => $rows,

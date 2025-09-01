@@ -1,4 +1,4 @@
-import './styles/column-wizard.pcss';
+import './styles/row-wizard.pcss';
 
 import { Application } from '@hotwired/stimulus';
 import { definitionsFromContext } from '@hotwired/stimulus-webpack-helpers';

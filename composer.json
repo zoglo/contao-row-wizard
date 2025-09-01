@@ -1,6 +1,6 @@
 {
-    "name": "zoglo/contao-simple-column-wizard",
-    "description": "SimpleColumnWizard for Contao Open Source CMS",
+    "name": "zoglo/contao-row-wizard",
+    "description": "RowWizard for Contao Open Source CMS",
     "keywords": ["contao", "widget", "wizard"],
     "type": "contao-bundle",
     "license": "MIT",
@@ -12,8 +12,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/zoglo/contao-simple-column-wizard/issues",
-        "source": "https://github.com/zoglo/contao-simple-column-wizard",
+        "issues": "https://github.com/zoglo/contao-row-wizard/issues",
+        "source": "https://github.com/zoglo/contao-row-wizard",
         "forum": "https://community.contao.org"
     },
     "require": {
@@ -34,14 +34,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Zoglo\\SimpleColumnWizardBundle\\": "src/"
+            "Zoglo\\RowWizardBundle\\": "src/"
         }
     },
     "scripts": {
         "depcheck": "@php vendor/bin/composer-dependency-analyser --config=depcheck.php"
     },
     "extra": {
-        "contao-manager-plugin": "Zoglo\\SimpleColumnWizardBundle\\ContaoManager\\Plugin"
+        "contao-manager-plugin": "Zoglo\\RowWizardBundle\\ContaoManager\\Plugin"
     },
     "config": {
         "allow-plugins": {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zoglo\SimpleColumnWizardBundle\EventListener;
+namespace Zoglo\RowWizardBundle\EventListener;
 
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Symfony\Component\Asset\Packages;
@@ -19,8 +19,8 @@ class AddAssetsListener
     public function __invoke(RequestEvent $event): void
     {
         if ($this->scopeMatcher->isBackendMainRequest($event)) {
-            $GLOBALS['TL_JAVASCRIPT'][] = $this->package->getUrl('simple-column-wizard.js', 'zoglo_simple_column_wizard');
-            $GLOBALS['TL_CSS'][] = $this->package->getUrl('simple-column-wizard.css', 'zoglo_simple_column_wizard');
+            $GLOBALS['TL_JAVASCRIPT'][] = $this->package->getUrl('row-wizard.js', 'zoglo_row_wizard');
+            $GLOBALS['TL_CSS'][] = $this->package->getUrl('row-wizard.css', 'zoglo_row_wizard');
         }
     }
 }

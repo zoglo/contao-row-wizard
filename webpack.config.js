@@ -6,14 +6,14 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 
 Encore
     .setOutputPath('./public/')
-    .setPublicPath(Encore.isDevServer() ? '/public/' : '/bundles/zoglosimplecolumnwizard/')
+    .setPublicPath(Encore.isDevServer() ? '/public/' : '/bundles/zoglorowwizard/')
     .setManifestKeyPrefix('')
 
     .cleanupOutputBeforeBuild()
     .disableSingleRuntimeChunk()
     .enableBuildNotifications(Encore.isProduction())
 
-    .addEntry('simple-column-wizard', './assets/column-wizard.js')
+    .addEntry('row-wizard', './assets/row-wizard.js')
 
     .enablePostCssLoader()
     .enableVersioning(Encore.isProduction())

@@ -1,9 +1,9 @@
 {% trans_default_domain "contao_default" %}
-{% set controller_prefix = 'scw--' %}
+{% set controller_prefix = 'zrw--' %}
 
 {% set table_attributes = attrs()
     .set('id', 'ctrl_' ~ id)
-    .addClass(['simple_column_wizard'])
+    .addClass(['zoglo_row_wizard'])
     .set('data-controller', controller_prefix ~ 'row-wizard')
     .setIfExists('data-'~ controller_prefix ~ 'row-wizard-min-value', min_rows|default)
     .setIfExists('data-'~ controller_prefix ~ 'row-wizard-max-value', max_rows|default)
@@ -37,7 +37,7 @@
                         {% set drag_handle_attributes = attrs()
                             .set('type', 'button')
                             .set('data-action', 'keydown->' ~ controller_prefix ~ 'sortable#move')
-                            .addClass(['drag-handle', 'scw-drag-handle'])
+                            .addClass(['drag-handle', 'zrw-drag-handle'])
                         %}
                         <button{{ drag_handle_attributes}}>{{ backend_icon('drag.svg', 'MSC.move'|trans) }}</button>
                     </td>
@@ -105,7 +105,7 @@
                         {% set drag_handle_attributes = attrs()
                             .set('type', 'button')
                             .set('data-action', 'keydown->' ~ controller_prefix ~ 'sortable#move')
-                            .addClass(['drag-handle', 'scw-drag-handle'])
+                            .addClass(['drag-handle', 'zrw-drag-handle'])
                         %}
                         <button{{ drag_handle_attributes}}>{{ backend_icon('drag.svg', 'MSC.move'|trans) }}</button>
                     {% endif %}
