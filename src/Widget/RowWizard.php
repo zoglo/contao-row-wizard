@@ -191,13 +191,11 @@ class RowWizard extends Widget
 
     public static function getAttributesFromDca($arrData, $strName, $varValue = null, $strField = '', $strTable = '', $objDca = null): array
     {
-        $attributes = parent::getAttributesFromDca($arrData, $strName, $varValue, $strField, $strTable, $objDca);
-
-        if (isset($arrData['fields']) && !isset($attributes['fields'])) {
-            $attributes['fields'] = $arrData['fields'];
+        if (isset($arrData['fields']) && !isset($arrData['eval']['fields'])) {
+            $arrData['eval']['fields'] = $arrData['fields'];
         }
 
-        return $attributes;
+        return parent::getAttributesFromDca($arrData, $strName, $varValue, $strField, $strTable, $objDca);
     }
 
     private function prepareWidget(string $type, mixed $value, array $options, int $increment): Widget|null
