@@ -15,8 +15,8 @@
         {% if sortable and reverseSortable %}
             <th></th>
         {% endif %}
-        {% for label in labels %}
-            <th>{{ label }}</th>
+        {% for cell in header %}
+            <th>{{ cell.label|default }}{% if cell.mandatory|default %}<span class="mandatory">*</span>{% endif %}</th>
         {% endfor %}
         <th></th>
     </tr>

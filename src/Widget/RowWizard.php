@@ -27,17 +27,15 @@ class RowWizard extends Widget
 
     private bool $reverseSortable;
 
+    private array $widgets = [];
+
     public function __construct($arrAttributes = null)
     {
         parent::__construct($arrAttributes);
 
         $this->preserveTags = true;
         $this->decodeEntities = true;
-        $this->reverseSortable = \in_array(version_compare(ContaoCoreBundle::getVersion(), '5.3.999', '<'), [0, false, null], true);
-
-        foreach ($this->arrOptions as $arrOption) {
-            $this->arrColumnFields[] = $arrOption['value'];
-        }
+        $this->reverseSortable = (bool) version_compare(ContaoCoreBundle::getVersion(), '5.6', '>=');
     }
 
     /**
@@ -55,30 +53,8 @@ class RowWizard extends Widget
                 parent::__set($strKey, $varValue);
                 break;
 
-            case 'size':
-                if ($this->multiple) {
-                    $this->arrAttributes['size'] = $varValue;
-                }
-                break;
-
-            case 'multiple':
-                if ($varValue) {
-                    $this->arrAttributes['multiple'] = 'multiple';
-                }
-                break;
-
-            case 'options':
-                $this->arrOptions = StringUtil::deserialize($varValue);
-                break;
-
             case 'columnFields':
-                $this->arrColumnFields = StringUtil::deserialize($varValue);
-                break;
-
-            case 'maxlength':
-                if ($varValue > 0) {
-                    $this->arrAttributes['maxlength'] = $varValue;
-                }
+                $this->arrColumnFields = $varValue;
                 break;
 
             case 'min':
@@ -90,12 +66,12 @@ class RowWizard extends Widget
                 break;
 
             case 'sortable':
-                $this->sortable = $varValue ?? false;
+                $this->sortable = (bool) $varValue;
                 break;
 
             case 'actions':
                 if (is_array($varValue)) {
-                    $this->actions = $varValue;
+                    $this->actions = array_intersect(['copy', 'delete', 'enable'], $varValue);
                 }
                 break;
 
@@ -107,7 +83,26 @@ class RowWizard extends Widget
 
     public function validate(): void
     {
-        $varValue = $this->getPost($this->strName);
+        $varValue = [];
+        $varPost = $this->getPost($this->strName);
+
+        for ($i = 0, $c = \count($varPost); $i < $c; ++$i) {
+            foreach ($this->arrColumnFields as $key => $options) {
+                $widget = $this->prepareWidget($key, $this->varValue[$i][$key] ?? null, $options, $i);
+
+                if (null === $widget) {
+                    continue;
+                }
+
+                $widget->validate();
+
+                if ($widget->hasErrors()) {
+                    $this->objDca->noReload = true;
+                } else {
+                    $varValue[$i][$key] = $widget->value;
+                }
+            }
+        }
 
         if ($this->hasErrors()) {
             $this->class = 'error';
@@ -116,10 +111,7 @@ class RowWizard extends Widget
         $this->varValue = $varValue;
     }
 
-    /**
-     * @return string
-     */
-    public function generate()
+    public function generate(): string
     {
         // Make sure there is at least an empty array
         if (!\is_array($this->varValue) || $this->varValue === []) {
@@ -136,25 +128,25 @@ class RowWizard extends Widget
             }
         }
 
-        $labels = $rows = [];
+        $header = $rows = [];
 
         for ($i = 0, $c = \count($this->varValue); $i < $c; ++$i) {
             $columns = [];
-            $labels = [];
+            $header = [];
 
             foreach ($this->arrColumnFields as $key => $options) {
-                $widget = $this->prepareWidget($key, $options, $i);
+                $widget = $this->prepareWidget($key, $this->varValue[$i][$key] ?? null, $options, $i);
 
                 if (null !== $widget) {
                     if ('be_widget' === $widget->template) {
-                        $labels[] = $widget->label ?? '';
+                        $header[] = ['label' => $widget->label ?? '', 'mandatory' => $widget->mandatory];
                         $widget->label = null;
                         $widget->template = $this->strTemplate;
                     } else {
-                        $labels[] = '';
+                        $header[] = [];
                     }
 
-                    $columns[] = $widget->parse();
+                    $columns[] = $widget->generateWithError(true);
                 }
             }
 
@@ -169,7 +161,7 @@ class RowWizard extends Widget
 
         return System::getContainer()->get('twig')->render('@Contao/widget/row_wizard.html.twig', [
             'id' => $this->strId,
-            'labels' => $labels,
+            'header' => $header,
             'rows' => $rows,
             'min_rows' => $this->min,
             'max_rows' => $this->max,
@@ -179,16 +171,24 @@ class RowWizard extends Widget
         ]);
     }
 
-    private function prepareWidget(string $type, array $options, int $increment): Widget|null
+    private function prepareWidget(string $type, mixed $value, array $options, int $increment): Widget|null
     {
-        if (
-            !isset($options['inputType'])
-            || !class_exists($widgetClass = $GLOBALS['BE_FFL'][$options['inputType']])
-        ) {
+        if (isset($this->widgets[$increment][$type])) {
+            return $this->widgets[$increment][$type];
+        }
+
+        if (!isset($options['inputType'])) {
             return null;
         }
 
-        $data = $widgetClass::getAttributesFromDca($options, $type);
+        /** @var class-string<Widget> $widgetClass */
+        $widgetClass = $GLOBALS['BE_FFL'][$options['inputType']];
+
+        if (!\class_exists($widgetClass)) {
+            return null;
+        }
+
+        $data = $widgetClass::getAttributesFromDca($options, $type, $value, $this->strField, $this->strTable, $this->objDca);
 
         $data['name'] = $this->strId . '[' . $increment . '][' . $data['name'] . ']';
 
@@ -198,12 +198,6 @@ class RowWizard extends Widget
             $data['id'] .= '_' . $increment;
         }
 
-        if (isset($this->varValue[$increment][$type])) {
-            $data['value'] = $this->varValue[$increment][$type];
-        }
-
-        $widget = new $widgetClass($data);
-
-        return $widget;
+        return $this->widgets[$increment][$type] = new $widgetClass($data);
     }
 }
