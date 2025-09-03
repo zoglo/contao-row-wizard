@@ -5,6 +5,7 @@
     /* webpackIgnore: true */
     --icon-invisible: url("/system/themes/flexible/icons/invisible.svg");
 
+    margin-top: 2px;
     width: unset;
     max-width: unset;
 
@@ -51,7 +52,7 @@
     }
 
     td {
-        padding: 3px;
+        padding: 2px 6px 2px 0;
 
         .tl_text,
         .tl_select {
@@ -60,6 +61,11 @@
 
         .tl_text_field {
             display: flex;
+        }
+
+        &:is(:first-child, :last-child) {
+            width: 1%;
+            white-space: nowrap;
         }
     }
 }
