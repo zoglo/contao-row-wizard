@@ -11,7 +11,6 @@ Encore
 
     .cleanupOutputBeforeBuild()
     .disableSingleRuntimeChunk()
-    .enableBuildNotifications(Encore.isProduction())
 
     .addEntry('row-wizard', './assets/row-wizard.js')
 

@@ -31,6 +31,8 @@ class RowWizard extends Widget
 
         $this->preserveTags = true;
         $this->decodeEntities = true;
+
+        System::loadLanguageFile('default');
     }
 
     /**
@@ -95,11 +97,12 @@ class RowWizard extends Widget
     public function validate(): void
     {
         $varValue = [];
-        $varPost = $this->getPost($this->strName);
+        $varPost = $this->getPost($this->strId . '[_rows]') ?? [];
 
         for ($i = 0, $c = \count($varPost); $i < $c; ++$i) {
             foreach ($this->arrFields as $key => $options) {
-                $widget = $this->prepareWidget($key, $this->varValue[$i][$key] ?? null, $options, $i);
+                /** @var Widget $widget */
+                list($widget) = $this->prepareWidget($key, $this->varValue[$i][$key] ?? null, $options, $i);
 
                 if (null === $widget) {
                     continue;
@@ -108,7 +111,7 @@ class RowWizard extends Widget
                 $widget->validate();
 
                 if ($widget->hasErrors()) {
-                    $this->objDca->noReload = true;
+                    $this->addError($GLOBALS['TL_LANG']['ERR']['general']);
                 } else {
                     $varValue[$i][$key] = $widget->value;
                 }
@@ -139,26 +142,34 @@ class RowWizard extends Widget
             }
         }
 
-        $header = $rows = [];
+        $header = $footer = $rows = [];
 
-        for ($i = 0, $c = \count($this->varValue); $i < $c; ++$i) {
+        for ($i = 0, $c = \count($this->varValue); $i < $c; ++$i)
+        {
             $columns = [];
             $header = [];
+            $footer = [];
 
             foreach ($this->arrFields as $key => $options) {
                 if (\is_array($options['input_field_callback'] ?? null)) {
+                    $widget = System::importStatic($options['input_field_callback'][0])->{$options['input_field_callback'][1]}($this->objDca);
+
                     $header[] = [];
-                    $columns[] = System::importStatic($options['input_field_callback'][0])->{$options['input_field_callback'][1]}($this->objDca);
+                    $footer[] = ['description' => $widget->description ?? ''];
+                    $columns[] = [...Widget::getAttributesFromDca($options, $key), 'widget' => $widget];
                     continue;
                 }
 
                 if (\is_callable($options['input_field_callback'] ?? null)) {
+                    $widget = $options['input_field_callback']($this->objDca);
+
                     $header[] = [];
-                    $columns[] = $options['input_field_callback']($this->objDca);
+                    $footer[] = ['description' => $widget->description ?? ''];
+                    $columns[] = [...Widget::getAttributesFromDca($options, $key), 'widget' => $widget];
                     continue;
                 }
 
-                $widget = $this->prepareWidget($key, $this->varValue[$i][$key] ?? null, $options, $i);
+                list($widget, $data) = $this->prepareWidget($key, $this->varValue[$i][$key] ?? null, $options, $i);
 
                 if (null !== $widget) {
                     if ('be_widget' === $widget->template) {
@@ -169,7 +180,8 @@ class RowWizard extends Widget
                         $header[] = [];
                     }
 
-                    $columns[] = $widget->generateWithError(true);
+                    $footer[] = ['description' => $widget->description ?? ''];
+                    $columns[] = [...$data, 'widget' => $widget->generateWithError(true)];
                 }
             }
 
@@ -182,10 +194,13 @@ class RowWizard extends Widget
             ];
         }
 
-        return System::getContainer()->get('twig')->render('@Contao/widget/row_wizard.html.twig', [
+        return System::getContainer()->get('twig')->render('@Contao/backend/widget/row_wizard.html.twig', [
             'id' => $this->strId,
             'style' => $this->style,
             'header' => $header,
+            'showHeader' => !$this->allEmpty($header, 'label'),
+            'footer' => $footer,
+            'showFooter' => !$this->allEmpty($footer, 'description'),
             'rows' => $rows,
             'min_rows' => $this->min,
             'max_rows' => $this->max,
@@ -196,40 +211,55 @@ class RowWizard extends Widget
 
     public static function getAttributesFromDca($arrData, $strName, $varValue = null, $strField = '', $strTable = '', $objDca = null): array
     {
-        if (isset($arrData['fields']) && !isset($arrData['eval']['fields'])) {
+        if (isset($arrData['fields']) && !isset($attributes['fields']))
+        {
             $arrData['eval']['fields'] = $arrData['fields'];
         }
 
         return parent::getAttributesFromDca($arrData, $strName, $varValue, $strField, $strTable, $objDca);
     }
 
-    private function prepareWidget(string $type, mixed $value, array $options, int $increment): Widget|null
+    /**
+     * @return array{0: Widget|null, 1: array}
+     */
+    private function prepareWidget(string $key, mixed $value, array $options, int $increment): array
     {
-        if (isset($this->widgets[$increment][$type])) {
-            return $this->widgets[$increment][$type];
+        if (isset($this->widgets[$increment][$key])) {
+            return $this->widgets[$increment][$key];
         }
 
         if (!isset($options['inputType'])) {
-            return null;
+            return [null, []];
         }
 
         /** @var class-string<Widget> $widgetClass */
         $widgetClass = $GLOBALS['BE_FFL'][$options['inputType']];
 
         if (!class_exists($widgetClass)) {
-            return null;
+            return [null, []];
         }
 
-        $data = $widgetClass::getAttributesFromDca($options, $type, $value, $this->strField, $this->strTable, $this->objDca);
+        $data = $widgetClass::getAttributesFromDca($options, $key, $value, $this->strField, $this->strTable, $this->objDca);
 
-        $data['name'] = $this->strId.'['.$increment.']['.$data['name'].']';
+        $data['name'] = $this->strId . '[' . $increment . '][' . $data['name'] . ']';
 
         if (\in_array($data['type'] ?? null, ['checkbox', 'label'], true)) {
             $data['id'] = $data['name'];
         } else {
-            $data['id'] .= '_'.$increment;
+            $data['id'] .= '_' . $increment;
         }
 
-        return $this->widgets[$increment][$type] = new $widgetClass($data);
+        return $this->widgets[$increment][$key] = [new $widgetClass($data), $data];
+    }
+
+    private function allEmpty(array $values, string $key): bool
+    {
+        foreach ($values as $value) {
+            if (!empty($value[$key])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
