@@ -2,10 +2,10 @@
   "entrypoints": {
     "row-wizard": {
       "css": [
-        "/bundles/zoglorowwizard/row-wizard.09a0b02a.css"
+        "/bundles/zoglorowwizard/row-wizard.060c41a1.css"
       ],
       "js": [
-        "/bundles/zoglorowwizard/row-wizard.40dc1c93.js"
+        "/bundles/zoglorowwizard/row-wizard.28b31cd6.js"
       ]
     }
   }
