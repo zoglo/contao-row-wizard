@@ -172,7 +172,7 @@ class RowWizard extends Widget
                 list($widget, $data) = $this->prepareWidget($key, $this->varValue[$i][$key] ?? null, $options, $i);
 
                 if (null !== $widget) {
-                    if ('be_widget' === $widget->template) {
+                    if ('be_widget_zrw' === $widget->template) {
                         $header[] = ['label' => $widget->label ?? '', 'mandatory' => $widget->mandatory];
                         $widget->label = null;
                         $widget->template = $this->strTemplate;
