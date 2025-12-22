@@ -1,5 +1,5 @@
 > [!WARNING]
-> Do not use this plugin in production
+> The Row-Wizard is now part of Contao 5.7 and does not need to be installed
 
 <h1 align="center">Contao Row Wizard</h1>
 <p align="center">
@@ -9,6 +9,8 @@
 </p>
 
 ## Description
+
+See https://github.com/contao/contao/pull/8781/ for the Contao feature (This bundle acts as a backport now).
 
 This bundle adds a widget that allows adding multiple rows, with each row containing multiple widgets arranged as columns. The data can be stored as a serialized array in the database.
 
